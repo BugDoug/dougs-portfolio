@@ -1,110 +1,456 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Douglas Stout — Remote Operations & SCADA</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0f172a;--card:#111827;--accent:#22c55e;--text:#e5e7eb;--muted:#9ca3af}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text);line-height:1.6}
-.container{max-width:1000px;margin:auto;padding:32px}
-header{position:sticky;top:0;background:#020617;border-bottom:1px solid #1f2937}
-nav{display:flex;justify-content:space-between;align-items:center}
-a{color:inherit;text-decoration:none}
-.navlinks a{margin-left:20px;color:var(--muted)}
-.navlinks a:hover{color:white}
-h1{font-size:42px;margin-bottom:8px}
-h2{margin-top:48px;font-size:28px}
-.lead{color:var(--muted);max-width:700px}
-.card{background:var(--card);padding:24px;border-radius:14px;margin-top:20px;border:1px solid #1f2937}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.tag{background:#1f2937;padding:6px 10px;border-radius:8px;font-size:13px;margin:4px;display:inline-block}
-.timeline-item{margin-bottom:28px}
-.job-title{font-weight:600}
-.muted{color:var(--muted)}
-.footer{margin-top:60px;padding:30px 0;color:var(--muted);text-align:center}
-.btn{display:inline-block;margin-top:18px;background:var(--accent);color:#022c22;padding:10px 16px;border-radius:10px;font-weight:600}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Douglas Stout — Remote Operations & SCADA</title>
+  <meta name="description" content="Douglas Stout — Remote Operations Specialist (Wind & SCADA)." />
+
+  <!-- Inspired by the layout/style of the Leven (dark) demo: sidebar + card-based sections + subtle motion -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0b0f19;
+      --bg2:#0f1629;
+      --panel:#121a2e;
+      --card:#111827;
+      --stroke:#1f2a44;
+      --text:#e5e7eb;
+      --muted:#9aa4b2;
+      --accent:#22c55e;
+      --accent2:#38bdf8;
+      --shadow: 0 18px 40px rgba(0,0,0,.35);
+      --r: 16px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 700px at 20% 10%, rgba(56,189,248,.10), transparent 60%),radial-gradient(900px 600px at 70% 30%, rgba(34,197,94,.10), transparent 65%),linear-gradient(180deg,var(--bg),#070a12 65%);color:var(--text);line-height:1.65}
+
+    a{color:inherit;text-decoration:none}
+
+    .wrap{min-height:100vh;display:grid;grid-template-columns:320px 1fr;gap:28px;max-width:1200px;margin:0 auto;padding:28px}
+
+    /* Sidebar */
+    .sidebar{position:sticky;top:20px;align-self:start;background:linear-gradient(180deg, rgba(17,24,39,.95), rgba(15,22,41,.92));border:1px solid var(--stroke);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+    .side-top{padding:22px 22px 18px;border-bottom:1px solid rgba(31,42,68,.7)}
+
+    .avatar{display:flex;gap:14px;align-items:center}
+    .avatar img{width:64px;height:64px;border-radius:18px;object-fit:cover;border:1px solid rgba(56,189,248,.35);background:rgba(255,255,255,.03)}
+    .name{font-weight:700;font-size:18px;letter-spacing:.2px}
+    .role{color:var(--muted);font-size:13px;margin-top:2px}
+
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .chip{font-size:12px;color:rgba(229,231,235,.92);padding:6px 10px;border-radius:999px;border:1px solid rgba(31,42,68,.9);background:rgba(255,255,255,.02)}
+
+    .side-nav{padding:14px}
+    .navlink{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:var(--muted)}
+    .navlink:hover{background:rgba(56,189,248,.06);color:var(--text)}
+    .navlink.active{background:rgba(34,197,94,.10);color:var(--text);border:1px solid rgba(34,197,94,.25)}
+
+    .side-bottom{padding:16px 18px;border-top:1px solid rgba(31,42,68,.7);display:grid;gap:10px}
+    .meta{display:grid;gap:6px;color:var(--muted);font-size:13px}
+    .meta b{color:var(--text);font-weight:600}
+
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid rgba(31,42,68,.9);background:rgba(255,255,255,.02);color:var(--text);font-weight:600;font-size:13px}
+    .btn:hover{background:rgba(255,255,255,.05)}
+    .btn.primary{background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(56,189,248,.85));border:none;color:#04130d}
+
+    /* Main */
+    .main{display:flex;flex-direction:column;gap:22px}
+
+    .hero{background:linear-gradient(180deg, rgba(17,24,39,.9), rgba(15,22,41,.8));border:1px solid var(--stroke);border-radius:var(--r);box-shadow:var(--shadow);padding:28px;overflow:hidden;position:relative}
+    .hero:before{content:"";position:absolute;inset:-1px;background:radial-gradient(500px 200px at 20% 0%, rgba(56,189,248,.22), transparent 55%),radial-gradient(450px 220px at 80% 40%, rgba(34,197,94,.20), transparent 60%);pointer-events:none;opacity:.65}
+
+    .hero-inner{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
+    h1{margin:0;font-size:40px;letter-spacing:-.6px;line-height:1.15}
+    .subtitle{margin-top:10px;color:var(--muted);max-width:58ch}
+
+    .rotator{margin-top:10px;font-size:14px;color:rgba(229,231,235,.92)}
+    .rotator b{color:var(--accent2)}
+
+    .hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+    .mini{background:rgba(255,255,255,.03);border:1px solid rgba(31,42,68,.9);border-radius:14px;padding:14px}
+    .mini h3{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:600}
+    .mini p{margin:0;font-weight:700}
+
+    .section{background:linear-gradient(180deg, rgba(17,24,39,.88), rgba(15,22,41,.78));border:1px solid var(--stroke);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
+    .section h2{margin:0 0 12px;font-size:20px;letter-spacing:-.2px}
+    .kicker{color:var(--muted);font-size:13px;margin-top:-6px;margin-bottom:12px}
+
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .card{background:rgba(255,255,255,.02);border:1px solid rgba(31,42,68,.95);border-radius:14px;padding:16px}
+    .card h3{margin:0 0 4px;font-size:15px}
+    .card .when{color:var(--muted);font-size:12px;margin-bottom:10px}
+    .bullets{margin:0;padding-left:18px;color:rgba(229,231,235,.92)}
+    .bullets li{margin:6px 0}
+
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{font-size:12px;color:rgba(229,231,235,.9);padding:7px 10px;border-radius:999px;border:1px solid rgba(31,42,68,.9);background:rgba(255,255,255,.02)}
+
+    .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .fact{background:rgba(255,255,255,.02);border:1px solid rgba(31,42,68,.95);border-radius:14px;padding:14px;text-align:center}
+    .fact .num{font-size:22px;font-weight:800;letter-spacing:-.4px}
+    .fact .lbl{color:var(--muted);font-size:12px}
+
+    .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .linkcard{transition:transform .25s ease, border-color .25s ease, background .25s ease}
+    .linkcard:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.35);background:rgba(56,189,248,.05)}
+
+    footer{color:var(--muted);font-size:12px;text-align:center;padding:12px 0}
+
+    /* Animations (Squarespace/Leven-like subtle motion) */
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.in{opacity:1;transform:translateY(0)}
+    .floaty{animation:floaty 6s ease-in-out infinite}
+    @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+    @media (max-width: 980px){
+      .wrap{grid-template-columns:1fr;}
+      .sidebar{position:relative;top:0}
+      .hero-inner{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+      .links{grid-template-columns:1fr}
+      .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+  </style>
 </head>
+
 <body>
-<header>
-<div class="container">
-<nav>
-<strong>Douglas Stout</strong>
-<div class="navlinks">
-<a href="#about">About</a>
-<a href="#experience">Experience</a>
-<a href="#skills">Skills</a>
-<a href="#education">Education</a>
-<a href="#contact">Contact</a>
-</div>
-</nav>
-</div>
-</header>
+  <div class="wrap">
 
-<main class="container">
-<section id="about">
-<h1>Remote Operations & SCADA Specialist</h1>
-<p class="lead">Control room and remote operations specialist supporting multi‑brand wind turbine fleets across North America. Experienced in monitoring, diagnostics, incident response, and cross‑team coordination under high‑pressure scenarios.</p>
-<a class="btn" href="resume.pdf">Download Resume</a>
-</section>
+    <!-- SIDEBAR (Leven-like) -->
+    <aside class="sidebar reveal" id="sidebar">
+      <div class="side-top">
+        <div class="avatar">
+          <!-- PROFILE PHOTO:
+               1) Add an image file in your repo, e.g. assets/profile.jpg
+               2) Update the src below to match.
+          -->
+          <img src="assets/profile.jpg" alt="Douglas Stout" onerror="this.style.display='none'" />
+          <div>
+            <div class="name">Douglas Stout</div>
+            <div class="role"><span id="roleText">Remote Operations Specialist</span></div>
+          </div>
+        </div>
 
-<section id="experience">
-<h2>Experience</h2>
-<div class="card timeline-item">
-<div class="job-title">Control Center Remote Operator — Vestas Wind Energy (2021–2026)</div>
-<ul>
-<li>Monitored ~2,000 turbines across the U.S. using Vestas, Suzlon, and Senvion SCADA platforms</li>
-<li>Diagnosed alarms and resolved remote faults without dispatching field personnel</li>
-<li>Coordinated escalations during multi‑site outages and acted as primary point of contact</li>
-<li>Improved process documentation to reduce downtime and operator error</li>
-<li>Logged technical actions for compliance and performance reporting</li>
-</ul>
-</div>
+        <div class="chips" aria-label="Highlights">
+          <span class="chip">Wind • SCADA</span>
+          <span class="chip">Incident Response</span>
+          <span class="chip">Process Improvement</span>
+          <span class="chip">Open to Remote / Hybrid</span>
+        </div>
+      </div>
 
-<div class="card timeline-item">
-<div class="job-title">Coordinator / Administrator — AMZL Logistics (2018–2021)</div>
-<ul>
-<li>Managed permissions and onboarding for associates and vendors</li>
-<li>Implemented and documented standard operating procedures</li>
-<li>Maintained safety training records and compliance documentation</li>
-<li>Collaborated with management and safety teams to improve efficiency</li>
-</ul>
-</div>
-</section>
+      <nav class="side-nav" aria-label="Site">
+        <a class="navlink" href="#home">Home</a>
+        <a class="navlink" href="#about">About</a>
+        <a class="navlink" href="#resume">Resume</a>
+        <a class="navlink" href="#skills">Skills</a>
+        <a class="navlink" href="#education">Education</a>
+        <a class="navlink" href="#links">Links</a>
+        <a class="navlink" href="#contact">Contact</a>
+      </nav>
 
-<section id="skills">
-<h2>Skills</h2>
-<div class="grid">
-<div class="card"><strong>Operations</strong><br><span class="tag">Incident Response</span><span class="tag">Alarm Triage</span><span class="tag">Escalations</span><span class="tag">Process Improvement</span></div>
-<div class="card"><strong>Technical</strong><br><span class="tag">SCADA Systems</span><span class="tag">Diagnostics</span><span class="tag">Log Auditing</span><span class="tag">Remote Updates</span></div>
-<div class="card"><strong>Coordination</strong><br><span class="tag">Documentation</span><span class="tag">Training</span><span class="tag">Account Management</span><span class="tag">Project Support</span></div>
-</div>
-</section>
+      <div class="side-bottom">
+        <div class="meta">
+          <div><b>Location:</b> Beaverton, OR (Remote)</div>
+          <div><b>Email:</b> <a href="mailto:doug.stout@outlook.com">doug.stout@outlook.com</a></div>
+          <div><b>Phone:</b> <a href="tel:+18055123101">+1 805-512-3101</a></div>
+        </div>
+        <div class="btnrow">
+          <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">Download Resume</a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+    </aside>
 
-<section id="education">
-<h2>Education & Training</h2>
-<div class="card">
-<ul>
-<li>Wind Turbine Technician Certificate — Northwest Renewable Energy Institute</li>
-<li>Cybersecurity Certification Bootcamp — The Tech Academy</li>
-<li>Business Management Studies — Ventura College & CSU Northridge</li>
-</ul>
-</div>
-</section>
+    <!-- MAIN -->
+    <main class="main" id="home">
+      <section class="hero reveal">
+        <div class="hero-inner">
+          <div>
+            <h1>Remote Operations & SCADA Specialist</h1>
+            <p class="subtitle">
+              Control room / remote operations specialist with 4+ years supporting multi-brand wind turbine sites across North America. Proven expertise in SCADA monitoring, fault diagnostics, and incident management for large fleets.
+            </p>
+            <div class="rotator" aria-label="Rotating roles">
+              Focus areas: <b id="rotate">SCADA Monitoring</b>
+            </div>
 
-<section id="contact">
-<h2>Contact</h2>
-<div class="card">
-<p>Email: doug.stout@outlook.com</p>
-<p>Phone: +1 805‑512‑3101</p>
-<p>LinkedIn: linkedin.com/in/douglas-stout</p>
-</div>
-</section>
-</main>
+            <div class="hero-ctas">
+              <a class="btn primary" href="#resume">View Resume</a>
+              <a class="btn" href="#links">My Links</a>
+            </div>
+          </div>
 
-<div class="footer">© 2026 Douglas Stout</div>
+          <div class="grid" aria-label="Highlights">
+            <div class="mini floaty">
+              <h3>Fleet scale supported</h3>
+              <p>~2,000 turbines</p>
+            </div>
+            <div class="mini floaty" style="animation-delay:1.2s">
+              <h3>Multi-brand tooling</h3>
+              <p>Vestas • Suzlon • Senvion</p>
+            </div>
+            <div class="mini floaty" style="animation-delay:2.4s">
+              <h3>Best fit</h3>
+              <p>Remote / Hybrid roles</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section reveal">
+        <h2>About</h2>
+        <p class="kicker">Straightforward, recruiter-friendly summary.</p>
+        <div class="card">
+          <p style="margin:0;color:rgba(229,231,235,.92)">
+            Experienced control room and remote operations specialist supporting multi-brand wind turbine sites across North America. Strong in SCADA-based monitoring, fault diagnostics, incident management, and clear documentation. Adept at coordinating with IT, field technicians, and management during high-impact multi-site events.
+          </p>
+          <p style="margin:10px 0 0;color:rgba(229,231,235,.92)">
+            Seeking remote or hybrid energy operations roles in Europe, especially English-speaking teams.
+          </p>
+        </div>
+
+        <div class="facts" style="margin-top:14px">
+          <div class="fact">
+            <div class="num" data-count="4">0</div>
+            <div class="lbl">Years ops experience</div>
+          </div>
+          <div class="fact">
+            <div class="num" data-count="2000">0</div>
+            <div class="lbl">Turbines supported</div>
+          </div>
+          <div class="fact">
+            <div class="num" data-count="3">0</div>
+            <div class="lbl">OEM platforms</div>
+          </div>
+          <div class="fact">
+            <div class="num" data-count="800">0</div>
+            <div class="lbl">Cyber bootcamp hours</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="resume" class="section reveal">
+        <h2>Resume</h2>
+        <p class="kicker">Key roles and impact — optimized for scanning.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>Control Center Remote Operator, Multi-brand Turbines — Vestas Wind Energy</h3>
+            <div class="when">2021 – 2026 • Beaverton, OR / Remote</div>
+            <ul class="bullets">
+              <li>Monitored and supported ~2,000 turbines across the U.S. using Vestas, Suzlon, and Senvion SCADA platforms.</li>
+              <li>Diagnosed alarms and remote faults, often resolving issues without dispatching field personnel.</li>
+              <li>Coordinated escalations for high-impact outages; acted as primary point of contact during multi-site events.</li>
+              <li>Created and improved process documentation to reduce downtime and operator error.</li>
+              <li>Logged technical actions and resolutions for compliance and performance reporting.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Coordinator / Administrator — AMZL Logistics</h3>
+            <div class="when">2018 – 2021 • Thousand Oaks, CA</div>
+            <ul class="bullets">
+              <li>Organized trainings and maintained accurate training documentation.</li>
+              <li>Managed site permissions and accounts; secured access by role and trained a team to do the same.</li>
+              <li>Primary contact for onboarding and online registration of third-party vendors and new associates.</li>
+              <li>Worked with management to implement SOPs with regular feedback and continuous improvement.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="section reveal">
+        <h2>Skills</h2>
+        <p class="kicker">Grouped for clarity.</p>
+        <div class="cards">
+          <div class="card">
+            <h3>Operations</h3>
+            <div class="tags">
+              <span class="tag">Multi-system monitoring</span>
+              <span class="tag">Incident management</span>
+              <span class="tag">Emergency response</span>
+              <span class="tag">Process control / creation</span>
+              <span class="tag">Project coordination</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>SCADA & Diagnostics</h3>
+            <div class="tags">
+              <span class="tag">SCADA systems</span>
+              <span class="tag">Diagnostics</span>
+              <span class="tag">Troubleshooting</span>
+              <span class="tag">Log auditing</span>
+              <span class="tag">Remote updates / reboots</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Access & Admin</h3>
+            <div class="tags">
+              <span class="tag">User permissions</span>
+              <span class="tag">Account management</span>
+              <span class="tag">Security policies</span>
+              <span class="tag">Documentation</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Business / Support</h3>
+            <div class="tags">
+              <span class="tag">Data analysis</span>
+              <span class="tag">Trainer (Safety/IT)</span>
+              <span class="tag">Business development</span>
+              <span class="tag">Stakeholder comms</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="section reveal">
+        <h2>Education & Training</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Wind Turbine Technician Certificate</h3>
+            <div class="when">Northwest Renewable Energy Institute • 2020</div>
+            <ul class="bullets">
+              <li>Hydraulics, PLC schematics, mechanical systems, high-voltage safety, shaft alignment</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Cybersecurity Certification Bootcamp</h3>
+            <div class="when">The Tech Academy • 2022</div>
+            <ul class="bullets">
+              <li>800+ hours: penetration testing, incident response, intrusion detection, cloud ops, SQL, HTML/CSS, C#, Python</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Business Management Studies (Associate-Level)</h3>
+            <div class="when">Ventura College & CSU Northridge • 2016</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="links" class="section reveal">
+        <h2>Links</h2>
+        <p class="kicker">Update URLs if needed.</p>
+        <div class="links">
+          <a class="card linkcard" href="https://www.linkedin.com/in/douglas-stout" target="_blank" rel="noopener">
+            <h3 style="margin:0 0 6px">LinkedIn</h3>
+            <div class="when">linkedin.com/in/douglas-stout</div>
+          </a>
+          <a class="card linkcard" href="https://github.com/bugdoug" target="_blank" rel="noopener">
+            <h3 style="margin:0 0 6px">GitHub</h3>
+            <div class="when">github.com/bugdoug</div>
+          </a>
+          <a class="card linkcard" href="resume.pdf" target="_blank" rel="noopener">
+            <h3 style="margin:0 0 6px">Resume (PDF)</h3>
+            <div class="when">Download / Print</div>
+          </a>
+        </div>
+      </section>
+
+      <section id="contact" class="section reveal">
+        <h2>Contact</h2>
+        <div class="card">
+          <div style="display:grid;gap:6px">
+            <div><span class="muted">Email:</span> <a href="mailto:doug.stout@outlook.com">doug.stout@outlook.com</a></div>
+            <div><span class="muted">Phone:</span> <a href="tel:+18055123101">+1 805-512-3101</a></div>
+            <div><span class="muted">Location:</span> Beaverton, OR (Remote) USA</div>
+            <div><span class="muted">Availability:</span> Open to Remote / On-site / Hybrid roles</div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Douglas Stout • Built for GitHub Pages
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Rotating focus text (simple, Leven-like)
+    const rotateEl = document.getElementById('rotate');
+    const roleEl = document.getElementById('roleText');
+    const phrases = [
+      'SCADA Monitoring',
+      'Alarm Triage',
+      'Fault Diagnostics',
+      'Incident Management',
+      'Process Improvement'
+    ];
+    const roles = [
+      'Remote Operations Specialist',
+      'Control Room Operator',
+      'SCADA Monitoring & Diagnostics'
+    ];
+
+    let i = 0, r = 0;
+    setInterval(() => {
+      i = (i + 1) % phrases.length;
+      if (rotateEl) rotateEl.textContent = phrases[i];
+    }, 2200);
+    setInterval(() => {
+      r = (r + 1) % roles.length;
+      if (roleEl) roleEl.textContent = roles[r];
+    }, 3800);
+
+    // Reveal-on-scroll animations
+    const reveal = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) e.target.classList.add('in');
+      }
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+
+    // Active nav + smooth section highlighting
+    const links = Array.from(document.querySelectorAll('.side-nav .navlink'));
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = '#' + entry.target.id;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
+
+    sections.forEach(s => spy.observe(s));
+
+    // Count-up fun facts
+    function animateCount(el){
+      const target = Number(el.dataset.count || '0');
+      const start = 0;
+      const duration = 900;
+      const t0 = performance.now();
+
+      function tick(t){
+        const p = Math.min(1, (t - t0) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(start + (target - start) * eased);
+        el.textContent = val.toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const factObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        factObserver.unobserve(e.target);
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.facts').forEach(el => factObserver.observe(el));
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
