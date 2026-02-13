@@ -3,552 +3,264 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Douglas Stout — Remote Operations & SCADA</title>
-  <meta name="description" content="Douglas Stout — Remote Operations Specialist (Wind & SCADA)." />
-
-  <!-- A GitHub Pages-friendly, Leven (dark)-inspired layout:
-       - Left profile panel with photo + social icons
-       - Vertical navigation
-       - Content “pages” (sections) with subtle transitions + reveal animations
-  -->
-
+  <title>Douglas Stout — Portfolio</title>
+  <meta name="description" content="Douglas Stout — Portfolio & Resume" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#0b0f19;
-      --panel:#0f1629;
-      --card:#101a31;
-      --card2:#0f1a33;
-      --stroke:#1f2a44;
-      --stroke2:#24314f;
-      --text:#e5e7eb;
-      --muted:#9aa4b2;
-      --accent:#22c55e;
-      --accent2:#38bdf8;
-      --shadow:0 18px 45px rgba(0,0,0,.35);
-      --r:18px;
-    }
-
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1000px 650px at 15% 10%, rgba(56,189,248,.10), transparent 60%),
-        radial-gradient(900px 650px at 80% 25%, rgba(34,197,94,.10), transparent 62%),
-        linear-gradient(180deg, var(--bg), #070a12 70%);
-      line-height:1.65;
-    }
-
-    a{color:inherit;text-decoration:none}
-
-    /* Layout wrapper */
-    .wrap{max-width:1220px;margin:0 auto;padding:28px;display:grid;grid-template-columns:340px 1fr;gap:26px;min-height:100vh}
-
-    /* Left panel (Leven-like) */
-    .left{
-      position:sticky;top:20px;align-self:start;
-      border:1px solid var(--stroke);
-      border-radius:var(--r);
-      background:linear-gradient(180deg, rgba(17,24,39,.95), rgba(15,22,41,.92));
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .left-top{padding:22px 22px 18px;border-bottom:1px solid rgba(31,42,68,.7)}
-
-    .profile{display:grid;gap:14px;justify-items:center;text-align:center}
-    .photo{
-      width:120px;height:120px;border-radius:22px;object-fit:cover;
-      border:1px solid rgba(56,189,248,.35);
-      background:rgba(255,255,255,.03);
-      box-shadow:0 12px 30px rgba(0,0,0,.25);
-    }
-
-    .name{font-weight:800;letter-spacing:-.2px;font-size:20px;margin-top:4px}
-    .title{color:var(--muted);font-size:13px}
-
-    /* Social icons row (like Leven) */
-    .social{display:flex;gap:10px;justify-content:center;margin-top:10px}
-    .iconbtn{
-      width:38px;height:38px;border-radius:12px;
-      display:grid;place-items:center;
-      border:1px solid rgba(31,42,68,.95);
-      background:rgba(255,255,255,.02);
-      transition:transform .18s ease, background .18s ease, border-color .18s ease;
-      color:rgba(229,231,235,.92);
-    }
-    .iconbtn:hover{transform:translateY(-2px);background:rgba(56,189,248,.06);border-color:rgba(56,189,248,.35)}
-    .icon{width:18px;height:18px;display:block}
-
-    /* Nav */
-    .nav{padding:14px}
-    .nav a{
-      display:flex;align-items:center;gap:10px;
-      padding:11px 12px;border-radius:14px;
-      color:var(--muted);
-      transition:background .18s ease,color .18s ease,border-color .18s ease;
-      border:1px solid transparent;
-    }
-    .nav a:hover{background:rgba(56,189,248,.06);color:var(--text)}
-    .nav a.active{background:rgba(34,197,94,.10);color:var(--text);border-color:rgba(34,197,94,.25)}
-
-    .left-bottom{padding:16px 18px;border-top:1px solid rgba(31,42,68,.7)}
-    .contact-mini{display:grid;gap:8px;color:var(--muted);font-size:13px}
-    .contact-mini b{color:var(--text);font-weight:600}
-
-    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:10px;
-      padding:10px 12px;border-radius:14px;
-      border:1px solid rgba(31,42,68,.95);
-      background:rgba(255,255,255,.02);
-      color:var(--text);font-weight:700;font-size:13px;
-      transition:transform .18s ease, background .18s ease;
-    }
-    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.05)}
-    .btn.primary{border:none;color:#04130d;background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(56,189,248,.85))}
-
-    /* Main panel */
-    .main{display:flex;flex-direction:column;gap:18px}
-
-    /* Top "page title" header like Leven */
-    .pagehead{
-      border:1px solid var(--stroke);
-      border-radius:var(--r);
-      background:linear-gradient(180deg, rgba(17,24,39,.88), rgba(15,22,41,.78));
-      box-shadow:var(--shadow);
-      padding:18px 20px;
-      display:flex;align-items:center;justify-content:space-between;gap:16px;
-    }
-    .pagehead h1{margin:0;font-size:18px;letter-spacing:-.2px}
-    .crumb{color:var(--muted);font-size:12px}
-
-    /* Content sections (act like pages) */
-    .section{
-      border:1px solid var(--stroke);
-      border-radius:var(--r);
-      background:linear-gradient(180deg, rgba(17,24,39,.88), rgba(15,22,41,.78));
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-
-    .section h2{margin:0 0 12px;font-size:20px;letter-spacing:-.2px}
-    .kicker{color:var(--muted);font-size:13px;margin-top:-6px;margin-bottom:12px}
-
-    .hero{
-      position:relative;overflow:hidden
-    }
-    .hero:before{content:"";position:absolute;inset:-1px;pointer-events:none;opacity:.65;
-      background:
-        radial-gradient(550px 220px at 18% 0%, rgba(56,189,248,.22), transparent 55%),
-        radial-gradient(520px 260px at 82% 40%, rgba(34,197,94,.20), transparent 60%);
-    }
-    .hero-inner{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
-
-    .big{margin:0;font-size:40px;letter-spacing:-.8px;line-height:1.12}
-    .subtitle{margin-top:10px;color:var(--muted);max-width:60ch}
-
-    .rotator{margin-top:10px;font-size:14px;color:rgba(229,231,235,.92)}
-    .rotator b{color:var(--accent2)}
-
-    .minis{display:grid;gap:12px}
-    .mini{background:rgba(255,255,255,.03);border:1px solid rgba(31,42,68,.95);border-radius:16px;padding:14px}
-    .mini h3{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:700}
-    .mini p{margin:0;font-weight:800}
-
-    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    .card{background:rgba(255,255,255,.02);border:1px solid rgba(31,42,68,.95);border-radius:16px;padding:16px}
-    .card h3{margin:0 0 6px;font-size:15px}
-    .when{color:var(--muted);font-size:12px;margin-bottom:10px}
-    .bullets{margin:0;padding-left:18px;color:rgba(229,231,235,.92)}
-    .bullets li{margin:6px 0}
-
-    .tags{display:flex;flex-wrap:wrap;gap:8px}
-    .tag{font-size:12px;color:rgba(229,231,235,.9);padding:7px 10px;border-radius:999px;border:1px solid rgba(31,42,68,.9);background:rgba(255,255,255,.02)}
-
-    .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    .fact{background:rgba(255,255,255,.02);border:1px solid rgba(31,42,68,.95);border-radius:16px;padding:14px;text-align:center}
-    .num{font-size:22px;font-weight:900;letter-spacing:-.4px}
-    .lbl{color:var(--muted);font-size:12px}
-
-    .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    .linkcard{transition:transform .22s ease, border-color .22s ease, background .22s ease}
-    .linkcard:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.35);background:rgba(56,189,248,.05)}
-
-    /* Leven-ish motion */
-    .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease, transform .7s ease}
-    .reveal.in{opacity:1;transform:translateY(0)}
-
-    /* Page-like transitions on nav */
-    .page{display:none;opacity:0;transform:translateY(10px);transition:opacity .25s ease, transform .25s ease}
-    .page.on{display:block}
-    .page.show{opacity:1;transform:translateY(0)}
-
-    .floaty{animation:floaty 6s ease-in-out infinite}
-    @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-    footer{color:var(--muted);font-size:12px;text-align:center;padding:12px 0}
-
-    @media (max-width: 980px){
-      .wrap{grid-template-columns:1fr;}
-      .left{position:relative;top:0}
-      .hero-inner{grid-template-columns:1fr}
-      .grid2{grid-template-columns:1fr}
-      .links{grid-template-columns:1fr}
-      .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <div class="wrap">
+  <a class="skip" href="#content">Skip to content</a>
 
-    <!-- LEFT PROFILE PANEL (links like the Leven demo) -->
-    <aside class="left reveal" id="left">
-      <div class="left-top">
-        <div class="profile">
-          <!-- PROFILE PHOTO:
-               1) Create a folder in your repo named: assets
-               2) Upload an image named: profile.jpg (or profile.png)
-               3) Update src below to match EXACT filename (case-sensitive)
-          -->
-          <img class="photo" src="assets/profile.jpg" alt="Douglas Stout" onerror="this.style.display='none'" />
-          <div>
-            <div class="name">Douglas Stout</div>
-            <div class="title"><span id="roleText">Remote Operations Specialist</span></div>
-          </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="brand-mark" aria-hidden="true">DS</span>
+        <span class="brand-text">Douglas Stout</span>
+      </a>
 
-          <!-- Social icon links (place/feel like Leven) -->
-          <div class="social" aria-label="Social links">
-            <a class="iconbtn" href="https://www.linkedin.com/in/douglas-stout" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 23.5h4V7.98h-4V23.5zM8 7.98h3.8v2.12h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07v9.38h-4v-8.31c0-1.98-.04-4.53-2.76-4.53-2.77 0-3.19 2.16-3.19 4.39v8.45H8V7.98z"/></svg>
-            </a>
-            <a class="iconbtn" href="https://github.com/bugdoug" target="_blank" rel="noopener" aria-label="GitHub">
-              <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.75 5.7.75 12.17c0 5.17 3.16 9.56 7.55 11.1.55.1.75-.25.75-.55v-2.1c-3.07.7-3.71-1.23-3.71-1.23-.5-1.33-1.22-1.68-1.22-1.68-1-.7.08-.69.08-.69 1.1.08 1.68 1.16 1.68 1.16.98 1.73 2.57 1.23 3.2.94.1-.73.38-1.23.69-1.51-2.45-.29-5.02-1.27-5.02-5.64 0-1.25.43-2.27 1.14-3.07-.12-.29-.5-1.47.1-3.05 0 0 .93-.31 3.05 1.17.88-.25 1.82-.37 2.76-.38.94.01 1.88.13 2.76.38 2.12-1.48 3.05-1.17 3.05-1.17.6 1.58.22 2.76.1 3.05.71.8 1.14 1.82 1.14 3.07 0 4.38-2.58 5.35-5.04 5.63.39.35.74 1.05.74 2.12v3.14c0 .3.2.65.76.54 4.38-1.55 7.53-5.93 7.53-11.1C23.25 5.7 18.27.5 12 .5z"/></svg>
-            </a>
-            <a class="iconbtn" href="resume.pdf" target="_blank" rel="noopener" aria-label="Resume">
-              <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v1.8H8V12zm0 4h8v1.8H8V16zm0-8h5v1.8H8V8z"/></svg>
-            </a>
-          </div>
-
-          <div class="tags" aria-label="Highlights" style="justify-content:center;margin-top:4px">
-            <span class="tag">Wind • SCADA</span>
-            <span class="tag">Incident Response</span>
-            <span class="tag">Process Improvement</span>
-            <span class="tag">Remote / Hybrid</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nav placement like the demo -->
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#about" data-page="about" class="active">About</a>
-        <a href="#resume" data-page="resume">Resume</a>
-        <a href="#skills" data-page="skills">Skills</a>
-        <a href="#education" data-page="education">Education</a>
-        <a href="#links" data-page="links">Links</a>
-        <a href="#contact" data-page="contact">Contact</a>
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">Menu</button>
+        <ul id="navmenu" class="nav-list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#links">Links</a></li>
+          <li><a class="btn btn-small" href="#contact">Contact</a></li>
+        </ul>
       </nav>
+    </div>
+  </header>
 
-      <div class="left-bottom">
-        <div class="contact-mini">
-          <div><b>Location:</b> Beaverton, OR (Remote)</div>
-          <div><b>Email:</b> <a href="mailto:doug.stout@outlook.com">doug.stout@outlook.com</a></div>
-          <div><b>Phone:</b> <a href="tel:+18055123101">+1 805-512-3101</a></div>
-        </div>
-        <div class="btnrow">
-          <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">Download Resume</a>
-          <a class="btn" href="#contact" data-page="contact">Contact</a>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main">
-      <div class="pagehead reveal">
+  <main id="content">
+    <!-- HERO -->
+    <section id="top" class="section hero">
+      <div class="container hero-grid">
         <div>
-          <h1 id="pageTitle">About</h1>
-          <div class="crumb" id="pageCrumb">Douglas Stout • Remote Operations & SCADA</div>
-        </div>
-        <div class="crumb">Focus: <b id="rotate">SCADA Monitoring</b></div>
-      </div>
+          <p class="eyebrow">Remote Operations • SCADA • Troubleshooting</p>
+          <h1>Operations-focused technician with strong systems thinking.</h1>
+          <p class="lead">
+            I help teams monitor, troubleshoot, and improve complex systems. Currently in remote operations supporting wind
+            assets and control-room workflows.
+          </p>
 
-      <!-- ABOUT PAGE -->
-      <section id="about" class="section hero page on reveal" data-title="About">
-        <div class="hero-inner">
-          <div>
-            <h2 class="big" style="margin:0">Remote Operations & SCADA Specialist</h2>
-            <p class="subtitle">
-              Control room / remote operations specialist with 4+ years supporting multi-brand wind turbine sites across North America. Proven expertise in SCADA monitoring, fault diagnostics, and incident management for large fleets.
+          <div class="hero-cta">
+            <a class="btn" href="#contact">Get in touch</a>
+            <a class="btn btn-ghost" href="#projects">See work</a>
+          </div>
+
+          <div class="pill-row" aria-label="Highlights">
+            <span class="pill">Remote / Hybrid</span>
+            <span class="pill">Open to Spain</span>
+            <span class="pill">English-first roles</span>
+          </div>
+        </div>
+
+        <aside class="card hero-card" aria-label="Quick info">
+          <div class="card-inner">
+            <h2 class="card-title">At a glance</h2>
+            <dl class="dl">
+              <div>
+                <dt>Role</dt>
+                <dd>Remote Operations (Wind)</dd>
+              </div>
+              <div>
+                <dt>Tools</dt>
+                <dd>SCADA, monitoring, incident workflows</dd>
+              </div>
+              <div>
+                <dt>Strengths</dt>
+                <dd>Troubleshooting, calm under pressure</dd>
+              </div>
+              <div>
+                <dt>Location</dt>
+                <dd>US • Open to relocate</dd>
+              </div>
+            </dl>
+
+            <div class="divider"></div>
+
+            <a class="btn btn-full" href="resume.pdf" target="_blank" rel="noopener">Download Resume (PDF)</a>
+            <p class="muted small">
+              Replace <code>resume.pdf</code> in your repo when ready.
             </p>
-            <div class="rotator">Focus areas: <b id="rotate2">SCADA Monitoring</b></div>
-
-            <div class="btnrow" style="margin-top:14px">
-              <a class="btn primary" href="#resume" data-page="resume">View Resume</a>
-              <a class="btn" href="#links" data-page="links">My Links</a>
-            </div>
           </div>
+        </aside>
+      </div>
+    </section>
 
-          <div class="minis">
-            <div class="mini floaty">
-              <h3>Fleet scale supported</h3>
-              <p>~2,000 turbines</p>
-            </div>
-            <div class="mini floaty" style="animation-delay:1.2s">
-              <h3>Multi-brand tooling</h3>
-              <p>Vestas • Suzlon • Senvion</p>
-            </div>
-            <div class="mini floaty" style="animation-delay:2.4s">
-              <h3>Best fit</h3>
-              <p>Remote / Hybrid roles</p>
-            </div>
-          </div>
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>About</h2>
+          <p class="muted">A clean summary — I’ll tailor this from your resume once you upload it.</p>
         </div>
 
-        <div class="facts" style="margin-top:16px">
-          <div class="fact"><div class="num" data-count="4">0</div><div class="lbl">Years ops experience</div></div>
-          <div class="fact"><div class="num" data-count="2000">0</div><div class="lbl">Turbines supported</div></div>
-          <div class="fact"><div class="num" data-count="3">0</div><div class="lbl">OEM platforms</div></div>
-          <div class="fact"><div class="num" data-count="800">0</div><div class="lbl">Cyber bootcamp hours</div></div>
-        </div>
-      </section>
-
-      <!-- RESUME PAGE -->
-      <section id="resume" class="section page reveal" data-title="Resume">
-        <h2>Resume</h2>
-        <p class="kicker">Key roles and impact — optimized for scanning.</p>
-        <div class="grid2">
-          <article class="card">
-            <h3>Control Center Remote Operator, Multi-brand Turbines — Vestas Wind Energy</h3>
-            <div class="when">2021 – 2026 • Beaverton, OR / Remote</div>
-            <ul class="bullets">
-              <li>Monitored and supported ~2,000 turbines across the U.S. using Vestas, Suzlon, and Senvion SCADA platforms.</li>
-              <li>Diagnosed alarms and remote faults, often resolving issues without dispatching field personnel.</li>
-              <li>Coordinated escalations for high-impact outages; acted as primary point of contact during multi-site events.</li>
-              <li>Created and improved process documentation to reduce downtime and operator error.</li>
-              <li>Logged technical actions and resolutions for compliance and performance reporting.</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <h3>Coordinator / Administrator — AMZL Logistics</h3>
-            <div class="when">2018 – 2021 • Thousand Oaks, CA</div>
-            <ul class="bullets">
-              <li>Organized trainings and maintained accurate training documentation.</li>
-              <li>Managed site permissions and accounts; secured access by role and trained a team to do the same.</li>
-              <li>Primary contact for onboarding and online registration of third-party vendors and new associates.</li>
-              <li>Worked with management to implement SOPs with regular feedback and continuous improvement.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- SKILLS PAGE -->
-      <section id="skills" class="section page reveal" data-title="Skills">
-        <h2>Skills</h2>
-        <p class="kicker">Grouped for clarity.</p>
-        <div class="grid2">
-          <div class="card">
-            <h3>Operations</h3>
-            <div class="tags">
-              <span class="tag">Multi-system monitoring</span>
-              <span class="tag">Incident management</span>
-              <span class="tag">Emergency response</span>
-              <span class="tag">Process control / creation</span>
-              <span class="tag">Project coordination</span>
-            </div>
-          </div>
-          <div class="card">
-            <h3>SCADA & Diagnostics</h3>
-            <div class="tags">
-              <span class="tag">SCADA systems</span>
-              <span class="tag">Diagnostics</span>
-              <span class="tag">Troubleshooting</span>
-              <span class="tag">Log auditing</span>
-              <span class="tag">Remote updates / reboots</span>
-            </div>
-          </div>
-          <div class="card">
-            <h3>Access & Admin</h3>
-            <div class="tags">
-              <span class="tag">User permissions</span>
-              <span class="tag">Account management</span>
-              <span class="tag">Security policies</span>
-              <span class="tag">Documentation</span>
-            </div>
-          </div>
-          <div class="card">
-            <h3>Business / Support</h3>
-            <div class="tags">
-              <span class="tag">Data analysis</span>
-              <span class="tag">Trainer (Safety/IT)</span>
-              <span class="tag">Business development</span>
-              <span class="tag">Stakeholder comms</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- EDUCATION PAGE -->
-      <section id="education" class="section page reveal" data-title="Education">
-        <h2>Education & Training</h2>
-        <div class="grid2">
-          <div class="card">
-            <h3>Wind Turbine Technician Certificate</h3>
-            <div class="when">Northwest Renewable Energy Institute • 2020</div>
-            <ul class="bullets"><li>Hydraulics, PLC schematics, mechanical systems, high-voltage safety, shaft alignment</li></ul>
-          </div>
-          <div class="card">
-            <h3>Cybersecurity Certification Bootcamp</h3>
-            <div class="when">The Tech Academy • 2022</div>
-            <ul class="bullets"><li>800+ hours: penetration testing, incident response, intrusion detection, cloud ops, SQL, HTML/CSS, C#, Python</li></ul>
-          </div>
-          <div class="card">
-            <h3>Business Management Studies (Associate-Level)</h3>
-            <div class="when">Ventura College & CSU Northridge • 2016</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- LINKS PAGE -->
-      <section id="links" class="section page reveal" data-title="Links">
-        <h2>Links</h2>
-        <p class="kicker">Same placement pattern as the Leven demo: quick link cards.</p>
-        <div class="links">
-          <a class="card linkcard" href="https://www.linkedin.com/in/douglas-stout" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">LinkedIn</h3>
-            <div class="when">linkedin.com/in/douglas-stout</div>
-          </a>
-          <a class="card linkcard" href="https://github.com/bugdoug" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">GitHub</h3>
-            <div class="when">github.com/bugdoug</div>
-          </a>
-          <a class="card linkcard" href="resume.pdf" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">Resume (PDF)</h3>
-            <div class="when">Download / Print</div>
-          </a>
-        </div>
-      </section>
-
-      <!-- CONTACT PAGE -->
-      <section id="contact" class="section page reveal" data-title="Contact">
-        <h2>Contact</h2>
         <div class="card">
-          <div style="display:grid;gap:6px">
-            <div><span class="muted">Email:</span> <a href="mailto:doug.stout@outlook.com">doug.stout@outlook.com</a></div>
-            <div><span class="muted">Phone:</span> <a href="tel:+18055123101">+1 805-512-3101</a></div>
-            <div><span class="muted">Location:</span> Beaverton, OR (Remote) USA</div>
-            <div><span class="muted">Availability:</span> Open to Remote / On-site / Hybrid roles</div>
+          <div class="card-inner prose">
+            <p>
+              I’m Douglas — I work in remote operations supporting wind turbine fleets, coordinating control-room response,
+              and troubleshooting issues across SCADA and OEM tooling. I’m interested in roles that blend operations,
+              reliability, and automation.
+            </p>
+            <p>
+              I prefer remote or hybrid work and I’m especially interested in English-speaking roles in Spain (visa sponsorship likely required).
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer>
-        © <span id="year"></span> Douglas Stout • Built for GitHub Pages
-      </footer>
-    </main>
-  </div>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Experience</h2>
+          <p class="muted">Paste/upload your resume and I’ll convert your real history into these cards.</p>
+        </div>
 
-  <script>
-    // Rotating focus text (Leven-ish tiny touch)
-    const rotateA = document.getElementById('rotate');
-    const rotateB = document.getElementById('rotate2');
-    const roleEl = document.getElementById('roleText');
+        <div class="timeline">
+          <article class="card item">
+            <div class="card-inner">
+              <div class="item-head">
+                <h3>Remote Operations — Wind (Example)</h3>
+                <p class="muted">Company • 20XX–Present</p>
+              </div>
+              <ul class="bullets">
+                <li>Monitor fleet performance and respond to alarms with clear triage and escalation.</li>
+                <li>Coordinate control-room actions, document incidents, and support root-cause analysis.</li>
+                <li>Improve SOPs to reduce repeat incidents and shorten time-to-recovery.</li>
+              </ul>
+            </div>
+          </article>
 
-    const phrases = ['SCADA Monitoring','Alarm Triage','Fault Diagnostics','Incident Management','Process Improvement'];
-    const roles = ['Remote Operations Specialist','Control Room Operator','SCADA Monitoring & Diagnostics'];
+          <article class="card item">
+            <div class="card-inner">
+              <div class="item-head">
+                <h3>Operations / Technical Support (Example)</h3>
+                <p class="muted">Company • 20XX–20XX</p>
+              </div>
+              <ul class="bullets">
+                <li>Provided technical support across multiple systems with structured troubleshooting.</li>
+                <li>Partnered with field teams and engineering to close loops on recurring issues.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    let i = 0, r = 0;
-    setInterval(() => {
-      i = (i + 1) % phrases.length;
-      if (rotateA) rotateA.textContent = phrases[i];
-      if (rotateB) rotateB.textContent = phrases[i];
-    }, 2200);
-    setInterval(() => {
-      r = (r + 1) % roles.length;
-      if (roleEl) roleEl.textContent = roles[r];
-    }, 3800);
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Skills</h2>
+          <p class="muted">Grouped for recruiter scanning.</p>
+        </div>
 
-    // Reveal-on-scroll animations
-    const revealObs = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-inner">
+              <h3>Operations</h3>
+              <div class="tag-row">
+                <span class="tag">Incident response</span>
+                <span class="tag">Alarm triage</span>
+                <span class="tag">SOPs</span>
+                <span class="tag">Escalations</span>
+              </div>
+            </div>
+          </div>
 
-    // Count-up facts (only once)
-    function animateCount(el){
-      const target = Number(el.dataset.count || '0');
-      const duration = 900;
-      const t0 = performance.now();
-      function tick(t){
-        const p = Math.min(1, (t - t0) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased).toLocaleString();
-        if (p < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-    const factObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.querySelectorAll('[data-count]').forEach(animateCount);
-        factObs.unobserve(e.target);
-      });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('.facts').forEach(el => factObs.observe(el));
+          <div class="card">
+            <div class="card-inner">
+              <h3>Systems</h3>
+              <div class="tag-row">
+                <span class="tag">SCADA</span>
+                <span class="tag">Monitoring</span>
+                <span class="tag">Logs</span>
+                <span class="tag">Reliability mindset</span>
+              </div>
+            </div>
+          </div>
 
-    // Page-like navigation (keeps links in Leven-ish locations)
-    const navLinks = Array.from(document.querySelectorAll('.nav a'));
-    const pages = Array.from(document.querySelectorAll('.page'));
-    const pageTitle = document.getElementById('pageTitle');
+          <div class="card">
+            <div class="card-inner">
+              <h3>Communication</h3>
+              <div class="tag-row">
+                <span class="tag">Clear documentation</span>
+                <span class="tag">Shift handoffs</span>
+                <span class="tag">Stakeholder updates</span>
+                <span class="tag">Cross-team coordination</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    function showPage(id){
-      const target = document.getElementById(id);
-      if (!target) return;
+    <!-- PROJECTS -->
+    <section id="projects" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Projects</h2>
+          <p class="muted">Add 2–4 strong, outcome-focused items.</p>
+        </div>
 
-      pages.forEach(p => {
-        const on = p.id === id;
-        p.classList.toggle('on', on);
-        p.classList.remove('show');
-      });
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-inner">
+              <h3>Control-room SOP Cleanup</h3>
+              <p class="muted">Reduced repeat incidents by tightening triage criteria and escalation paths.</p>
+              <div class="meta-row">
+                <span class="meta">Ops</span>
+                <span class="meta">Docs</span>
+                <span class="meta">Process</span>
+              </div>
+            </div>
+          </article>
 
-      // force reflow so transition plays when switching
-      void target.offsetWidth;
-      target.classList.add('show');
+          <article class="card">
+            <div class="card-inner">
+              <h3>Fleet Monitoring Improvements</h3>
+              <p class="muted">Built clearer dashboards/alerts and improved handoff notes for faster recovery.</p>
+              <div class="meta-row">
+                <span class="meta">SCADA</span>
+                <span class="meta">Monitoring</span>
+                <span class="meta">Reliability</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('data-page') === id));
-      const t = target.getAttribute('data-title') || id;
-      if (pageTitle) pageTitle.textContent = t;
+    <!-- LINKS -->
+    <section id="links" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Links</h2>
+          <p class="muted">Update these to your real URLs.</p>
+        </div>
 
-      // keep hash updated without jumping
-      history.replaceState(null, '', '#' + id);
-    }
+        <div class="grid-3">
+          <a class="card linkcard" href="https://www.linkedin.com/" target="_blank" rel="noopener">
+            <div class="card-inner">
+              <h3>LinkedIn</h3>
+              <p class="muted">Professional profile</p>
+            </div>
+          </a>
 
-    function handleNavClick(e){
-      const a = e.currentTarget;
-      const id = a.getAttribute('data-page');
-      if (!id) return;
-      e.preventDefault();
-      showPage(id);
-      // scroll main to top of content area (Leven "page" feel)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+          <a class="card linkcard" href="https://github.com/" target="_blank" rel="noopener">
+            <div class="card-inner">
+              <h3>GitHub</h3>
+              <p class="muted">Code & projects</p>
+            </div>
+          </a>
 
-    navLinks.forEach(a => a.addEventListener('click', handleNavClick));
-    document.querySelectorAll('[data-page]').forEach(a => a.addEventListener('click', handleNavClick));
-
-    // Initial page load: hash -> page
-    const initial = (location.hash || '#about').replace('#','');
-    showPage(initial);
-
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+          <a class="card linkcard" href="resume.pdf" target="_blank" rel="noopener">
+            <div class="card-inner">
+              <h3>Resume</h3>
+              <p class="muted">
