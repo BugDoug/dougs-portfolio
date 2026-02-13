@@ -7,183 +7,312 @@
 <meta name="description" content="Douglas Stout — Remote Operations Specialist (Wind & SCADA Systems)" />
 
 <style>
-:root{
-  --bg:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --line:#e2e8f0;
-  --panel:#f8fafc;
-  --accent:#1d4ed8;
-  --max:980px;
-}
+  /* ====== Squarespace-ish, clean + card-based ====== */
+  :root{
+    --bg: #0b0f19;
+    --bg2:#0f1629;
+    --card:#111827;
+    --card2:#0f172a;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --line:#1f2a44;
+    --accent:#60a5fa;
 
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.55;
-}
+    --shadow: 0 18px 42px rgba(0,0,0,.35);
+    --radius: 18px;
+    --max: 1080px;
 
-.wrap{max-width:var(--max);margin:auto;padding:28px 18px;}
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
 
-header{
-  padding:22px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:14px;
-}
+  /* Light theme tokens (applied when [data-theme="light"]) */
+  [data-theme="light"]{
+    --bg:#ffffff;
+    --bg2:#f8fafc;
+    --card:#ffffff;
+    --card2:#f8fafc;
+    --text:#0f172a;
+    --muted:#475569;
+    --line:#e2e8f0;
+    --accent:#1d4ed8;
+    --shadow: 0 18px 42px rgba(2,6,23,.12);
+  }
 
-h1{margin:0;font-size:28px;}
-.role{color:var(--muted);font-weight:600;margin-top:4px;}
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:
+      radial-gradient(1200px 700px at 15% 0%, rgba(96,165,250,.16), transparent 55%),
+      radial-gradient(900px 600px at 90% 10%, rgba(99,102,241,.16), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    color:var(--text);
+    line-height:1.6;
+  }
 
-section{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
-  margin-top:18px;
-}
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
 
-h2{
-  margin:0 0 10px;
-  font-size:15px;
-  letter-spacing:.03em;
-  text-transform:uppercase;
-}
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:28px 18px 72px;
+  }
 
-ul{margin:8px 0;padding-left:18px;}
-li{margin:6px 0;}
+  /* Topbar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .brand .name{
+    font-weight:800;
+    letter-spacing:-.02em;
+    font-size:16px;
+  }
+  .brand .sub{
+    color:var(--muted);
+    font-size:13px;
+    font-weight:600;
+  }
 
-.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media(max-width:900px){.two{grid-template-columns:1fr;}}
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+  }
 
-.tag{
-  display:inline-block;
-  padding:6px 10px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:var(--panel);
-  font-size:13px;
-  margin:4px;
-}
+  .btn{
+    appearance:none;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.06);
+    color:var(--text);
+    padding:10px 12px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    backdrop-filter: blur(10px);
+  }
+  [data-theme="light"] .btn{
+    background:#fff;
+  }
+  .btn:hover{ filter:brightness(1.04); }
+  .btn.primary{
+    background:linear-gradient(135deg, rgba(96,165,250,.95), rgba(59,130,246,.95));
+    border-color:transparent;
+    color:#08101f;
+  }
+  [data-theme="light"] .btn.primary{
+    color:#fff;
+    background:linear-gradient(135deg, #1d4ed8, #2563eb);
+  }
 
-.contact a{color:var(--accent);text-decoration:none;}
-.contact a:hover{text-decoration:underline;}
+  /* Layout */
+  .hero{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap:16px;
+    margin-bottom:16px: ;
+  }
+  @media (max-width: 920px){
+    .hero{ grid-template-columns:1fr; }
+  }
 
-footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  [data-theme="light"] .card{
+    background: #fff;
+  }
+
+  .card .pad{ padding:22px; }
+
+  .kicker{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    color:var(--muted);
+    background: rgba(0,0,0,.12);
+    font-size:13px;
+    font-weight:650;
+  }
+  [data-theme="light"] .pill{ background: var(--bg2); }
+
+  h1{
+    margin:0;
+    font-size:34px;
+    letter-spacing:-0.03em;
+    line-height:1.15;
+  }
+  .role{
+    margin:10px 0 0;
+    color:var(--muted);
+    font-weight:700;
+  }
+  .summary{
+    margin:14px 0 0;
+    color:var(--text);
+    max-width: 70ch;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap:16px;
+    margin-top:16px;
+  }
+  @media (max-width: 920px){
+    .grid{ grid-template-columns:1fr; }
+  }
+
+  .section-title{
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 10px;
+    font-weight:800;
+  }
+
+  .list{
+    margin:10px 0 0;
+    padding-left:18px;
+  }
+  .list li{ margin:7px 0; }
+
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+  .tag{
+    font-size:13px;
+    padding:7px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.05);
+    color: var(--text);
+  }
+  [data-theme="light"] .tag{ background: var(--bg2); }
+
+  .job{
+    padding:16px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.04);
+  }
+  [data-theme="light"] .job{ background: var(--bg2); }
+
+  .jobhead{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .job h3{
+    margin:0;
+    font-size:16px;
+    letter-spacing:-0.01em;
+  }
+  .when{
+    color:var(--muted);
+    font-weight:750;
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .where{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-size:13px;
+    font-weight:650;
+  }
+
+  .stack{ display:flex; flex-direction:column; gap:12px; }
+
+  footer{
+    margin-top:22px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* ====== Print-perfect styles ======
+     - force light theme
+     - remove gradients/shadows
+     - single column
+     - keep headings/jobs together
+  */
+  @media print{
+    :root{
+      --bg:#ffffff;
+      --bg2:#ffffff;
+      --card:#ffffff;
+      --card2:#ffffff;
+      --text:#000000;
+      --muted:#333333;
+      --line:#d0d7de;
+      --accent:#000000;
+      --shadow:none;
+    }
+    body{
+      background:#fff !important;
+      color:#000 !important;
+    }
+    .wrap{ padding:0; }
+    .topbar{ display:none !important; }
+    .card{ box-shadow:none !important; background:#fff !important; }
+    .pill, .tag, .btn{
+      background:#fff !important;
+      color:#000 !important;
+      border:1px solid var(--line) !important;
+    }
+    .hero, .grid{ grid-template-columns:1fr !important; }
+    a{ color:#000 !important; text-decoration:none !important; }
+    .job, .card{ break-inside:avoid; page-break-inside:avoid; }
+    section, .card{ break-inside:avoid; page-break-inside:avoid; }
+  }
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-<header>
-<h1>Douglas Stout</h1>
-<div class="role">Remote Operations Specialist — Wind & SCADA Systems</div>
-<p>
-Beaverton, OR (USA) • Open to Remote / Hybrid / On-site<br>
-doug.stout@outlook.com • +1 805-512-3101 •
-<a href="https://linkedin.com/in/douglas-stout" target="_blank">LinkedIn</a>
-</p>
+  <div class="topbar">
+    <div class="brand">
+      <div class="name">Douglas Stout</div>
+      <div class="sub">Remote Operations • Wind • SCADA</div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="themeBtn" type="button" aria-label="Toggle dark mode">Toggle theme</button>
+      <button class="btn" type="button" onclick="window.print()">Print / Save PDF</button>
+      <a class="btn primary" href="#contact">Contact</a>
+    </div>
+  </div>
 
-<p>
-Control room and remote operations specialist supporting multi-brand wind turbine fleets across North America.
-Experienced in SCADA monitoring, fault diagnostics, and incident coordination across 2,000+ turbines.
-Strong communicator focused on uptime, safety, and process improvement.
-</p>
-</header>
-
-<div class="two">
-
-<section>
-<h2>Core Skills</h2>
-<div>
-<span class="tag">SCADA Monitoring</span>
-<span class="tag">Fault Diagnostics</span>
-<span class="tag">Incident Management</span>
-<span class="tag">Multi-System Monitoring</span>
-<span class="tag">Emergency Response</span>
-<span class="tag">Data Analysis</span>
-<span class="tag">Log Auditing</span>
-<span class="tag">User Permissions</span>
-<span class="tag">Process Improvement</span>
-<span class="tag">Project Coordination</span>
-<span class="tag">Safety Training</span>
-<span class="tag">Remote Reboots & Updates</span>
-</div>
-
-<h2>Systems</h2>
-<ul>
-<li>Vestas SCADA</li>
-<li>Suzlon SCADA</li>
-<li>Senvion SCADA</li>
-</ul>
-</section>
-
-<section>
-<h2>Education & Training</h2>
-
-<strong>Wind Turbine Technician Certificate</strong><br>
-Northwest Renewable Energy Institute — 2020
-<ul>
-<li>Hydraulics, PLC schematics, mechanical systems</li>
-<li>High-voltage safety & shaft alignment</li>
-</ul>
-
-<strong>Cybersecurity Certification Bootcamp</strong><br>
-The Tech Academy — 2022
-<ul>
-<li>Penetration testing, incident response, intrusion detection</li>
-<li>Cloud operations, SQL, HTML/CSS, C#, Python</li>
-</ul>
-
-<strong>Business Management Studies</strong><br>
-Ventura College & CSUN — 2016
-</section>
-
-</div>
-
-<section>
-<h2>Professional Experience</h2>
-
-<strong>Control Center Remote Operator — Vestas Wind Energy</strong><br>
-Beaverton, OR / Remote • 2021 – 2026
-<ul>
-<li>Monitored and supported ~2,000 turbines across the U.S.</li>
-<li>Diagnosed SCADA alarms and resolved many faults remotely without field dispatch</li>
-<li>Primary point of contact during multi-site outages and escalations</li>
-<li>Improved documentation and procedures to reduce downtime and operator error</li>
-<li>Worked across multiple secured client network environments</li>
-<li>Logged actions for compliance and performance reporting</li>
-</ul>
-
-<strong>Coordinator / Administrator — AMZL Logistics</strong><br>
-Thousand Oaks, CA • 2018 – 2021
-<ul>
-<li>Managed user permissions and site accounts for associates and managers</li>
-<li>Organized trainings and maintained certification records</li>
-<li>Primary onboarding contact for vendors and new hires</li>
-<li>Implemented new SOPs with leadership feedback</li>
-<li>Collaborated with safety teams and trained staff on procedures</li>
-</ul>
-
-</section>
-
-<section class="contact">
-<h2>Contact</h2>
-Email: <a href="mailto:doug.stout@outlook.com">doug.stout@outlook.com</a><br>
-Phone: +1 805-512-3101<br>
-LinkedIn: <a href="https://linkedin.com/in/douglas-stout" target="_blank">linkedin.com/in/douglas-stout</a>
-</section>
-
-<footer>
-© <span id="y"></span> Douglas Stout
-</footer>
-
-</div>
-
-<script>
-document.getElementById("y").textContent = new Date().getFullYear();
-</script>
-</body>
-</html>
+  <div class="hero">
+    <div class="card">
